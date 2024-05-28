@@ -1,0 +1,85 @@
+-- phpMyAdmin SQL Dump
+-- version 5.1.1
+-- https://www.phpmyadmin.net/
+--
+-- Host: 127.0.0.1
+-- Generation Time: Dec 05, 2021 at 02:58 PM
+-- Server version: 10.4.21-MariaDB
+-- PHP Version: 7.4.25
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Database: `crud`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Juego`
+--
+
+--CREA LA TABLA JUEGO
+CREATE TABLE Juego (
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    NombreJuego NVARCHAR(100) NULL,
+    IdGenero INT,
+	IdDesarrolladora INT,
+	IdPlataforma INT NULL,
+    FechaLanzamiento DATE NULL,
+	NumeroJugadores NVARCHAR(50) NULL,
+    Metascore TINYINT NULL,
+    PuntajeUsuario TINYINT NULL,
+	IdUsuarioCrea INT,
+    FechaCrea DATETIME DEFAULT GETDATE(),
+    IdUsuarioModifica INT NULL,
+    FechaModifica DATETIME DEFAULT NULL,
+    Estatus BIT DEFAULT 1
+);
+GO
+
+--
+-- Dumping data for table `Juego`
+--
+
+--INSERTAR DATOS A TABLA JUEGO
+INSERT INTO Juego(NombreJuego,IdGenero,IdDesarrolladora,IdPlataforma,FechaLanzamiento,NumeroJugadores,Metascore,PuntajeUsuario,IdUsuarioCrea)
+SELECT DISTINCT metacritic_games.game,Genero.Id,Desarrolladora.Id,Plataforma.Id,metacritic_games.release_date,
+metacritic_games.number_players,metacritic_games.metascore,metacritic_games.user_score,1
+	FROM [dbo].[metacritic_games]
+inner join Desarrolladora ON Desarrolladora.Desarrolladora=metacritic_games.developer
+inner join Plataforma ON Plataforma.NombrePlataforma=metacritic_games.[platform]
+inner join Genero ON Genero.Genero =metacritic_games.genre
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `Juego`
+--
+ALTER TABLE `Juego`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `Juego`
+--
+ALTER TABLE `Juego`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

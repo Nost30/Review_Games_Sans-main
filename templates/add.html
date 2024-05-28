@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Agregar Videojuego</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Agregar Nuevo Videojuego</h1>
+        <form action="{{ url_for('add_game') }}" method="POST">
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" required>
+
+            <label for="genero">Género:</label>
+            <input type="text" id="genero" name="genero" required>
+
+            <label for="plataforma">Plataforma:</label>
+            <input type="text" id="plataforma" name="plataforma" required>
+
+            <label for="desarrolladora">Desarrolladora:</label>
+            <input type="text" id="desarrolladora" name="desarrolladora" required>
+
+            <label for="puntaje_metacritic">Puntaje Metacritic:</label>
+            <input type="number" id="puntaje_metacritic" name="puntaje_metacritic" step="0.1" required>
+
+            <label for="puntaje_usuarios">Puntaje Usuarios:</label>
+            <input type="number" id="puntaje_usuarios" name="puntaje_usuarios" step="0.1" required>
+
+            <button type="submit" class="button">Agregar</button>
+        </form>
+    </div>
+</body>
+</html>

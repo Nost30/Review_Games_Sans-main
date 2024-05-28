@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Videojuegos</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Lista de Videojuegos</h1>
+        <a href="{{ url_for('add_game') }}" class="button">Agregar Nuevo Juego</a>
+
+        <!-- Campo de búsqueda -->
+        <input type="text" id="busqueda" placeholder="Buscar por nombre de juego">
+        <button onclick="buscarJuego()" class="button">Buscar</button>
+
+        <!-- Botón para regresar a la página principal -->
+        <a href="{{ url_for('index') }}" class="button">Volver a la Página Principal</a>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Género</th>
+                    <th>Plataforma</th>
+                    <th>Desarrolladora</th>
+                    <th>Puntaje Metacritic</th>
+                    <th>Puntaje Usuarios</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for juego in juegos %}
+                <tr>
+                    <td>{{ juego.nombre }}</td>
+                    <td>{{ juego.genero }}</td>
+                    <td>{{ juego.plataforma }}</td>
+                    <td>{{ juego.desarrolladora }}</td>
+                    <td>{{ juego.puntaje_metacritic }}</td>
+                    <td>{{ juego.puntaje_usuarios }}</td>
+                    <td>
+                        <a href="{{ url_for('edit_game', id=juego.id) }}" class="button">Editar</a>
+                        <form action="{{ url_for('delete_game', id=juego.id) }}" method="POST" style="display:inline;">
+                            <button type="submit" class="button delete">Eliminar</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        function buscarJuego() {
+            // Obtener el valor del campo de búsqueda
+            var busqueda = document.getElementById('busqueda').value.toLowerCase();
+            
+            // Obtener la tabla de juegos
+            var tablaJuegos = document.querySelector('table tbody');
+            
+            // Obtener todas las filas de la tabla
+            var filas = tablaJuegos.getElementsByTagName('tr');
+            
+            // Iterar sobre las filas y mostrar solo las que coinciden o son similares a la búsqueda
+            for (var i = 0; i < filas.length; i++) {
+                var fila = filas[i];
+                var nombreJuego = fila.getElementsByTagName('td')[0].innerText.toLowerCase();
+                if (nombreJuego.includes(busqueda)) {
+                    fila.style.display = 'table-row';
+                } else {
+                    fila.style.display = 'none';
+                }
+            }
+        }
+    </script>
+</body>
+</html>
